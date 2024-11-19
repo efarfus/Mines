@@ -1,4 +1,4 @@
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, TouchableWithoutFeedback} from 'react-native';
 import params from '../params';
 import Mine from './Mine';
 import Flag from './Flag';
@@ -8,7 +8,7 @@ export default props => {
   const styleField = [styles.field];
   if (opened) styleField.push(styles.opened);
   if (exploded) styleField.push(styles.exploded);
-  if (flagged) styleField.push(styles.flagged)
+  if (flagged) styleField.push(styles.flagged);
   if (!opened && !exploded) styleField.push(styles.regular);
 
   let color = null;
@@ -20,15 +20,17 @@ export default props => {
   }
 
   return (
-    <View style={styleField}>
-      {!mined && opened && nearMines > 0 ? (
-        <Text style={[styles.label, {color: color}]}>{nearMines}</Text>
-      ) : (
-        false
-      )}
-      {mined && opened ? <Mine></Mine> : false}
-      {flagged && !opened ? <Flag></Flag>: false}
-    </View>
+    <TouchableWithoutFeedback onPress={props.onOpen}>
+      <View style={styleField}>
+        {!mined && opened && nearMines > 0 ? (
+          <Text style={[styles.label, {color: color}]}>{nearMines}</Text>
+        ) : (
+          false
+        )}
+        {mined && opened ? <Mine></Mine> : false}
+        {flagged && !opened ? <Flag></Flag> : false}
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
